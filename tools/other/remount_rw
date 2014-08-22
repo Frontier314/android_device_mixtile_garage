@@ -1,0 +1,2 @@
+#!/system/bin/sh
+/system/bin/mount -o remount,rw /system
