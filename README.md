@@ -3,16 +3,16 @@ How to build Android Kitkat 4.4.2 for Mixtile Garage and (possibly) Hyundai T7s:
 - Get Android branch android-4.4.2_r2 (KVT49L).
 - After syncing, perform the following changes:
 
-- File: hardware/libhardware/include/gralloc.h
+- File: hardware/libhardware/include/hardware/gralloc.h
 
-  Add:
+  Add (after GRALLOC_USAGE_RENDERSCRIPT          = 0x00100000,):
     GRALLOC_USAGE_HW_FIMC1        = 0x01000000,
     GRALLOC_USAGE_HW_ION          = 0x02000000,
     GRALLOC_USAGE_YUV_ADDR        = 0x04000000,
     /* SEC Private usage , for Overlay path at HWC */
     GRALLOC_USAGE_HWC_HWOVERLAY     = 0x20000000,
 
-    Add after GRALLOC_USAGE_PROTECTED:
+    Add (after GRALLOC_USAGE_PROTECTED):
     
     /* SEC Private usage , for HWC to set HDMI S3D format */
     /* HDMI should display this buffer as S3D SBS LR/RL*/
@@ -22,7 +22,8 @@ How to build Android Kitkat 4.4.2 for Mixtile Garage and (possibly) Hyundai T7s:
     GRALLOC_USAGE_PRIVATE_TB_LR       = 0x00400000,
     GRALLOC_USAGE_PRIVATE_TB_RL       = 0x00800000,
 
-    Add near the end:
+    Add (after int (*unlock)(struct gralloc_module_t const* module,
+            buffer_handle_t handle);):
     
     #if !defined(VITHAR_HACK)
     int (*getphys)(struct gralloc_module_t const* module,
@@ -32,7 +33,7 @@ How to build Android Kitkat 4.4.2 for Mixtile Garage and (possibly) Hyundai T7s:
 
 - File: system/core/include/system/graphics.h
 
-  Add:
+  Add (after HAL_PIXEL_FORMAT_BGRA_8888          = 5,):
     HAL_PIXEL_FORMAT_RGBA_5551          = 6,
     HAL_PIXEL_FORMAT_RGBA_4444          = 7,
     
